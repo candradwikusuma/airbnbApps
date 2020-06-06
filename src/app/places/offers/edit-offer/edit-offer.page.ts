@@ -1,8 +1,9 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
+import { Subscription } from "rxjs";
+import { NavController } from "@ionic/angular";
 
 import { PlacesService } from "../../places.service";
-import { NavController } from "@ionic/angular";
 import { Place } from "../../place.model";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 
@@ -11,9 +12,11 @@ import { FormGroup, FormControl, Validators } from "@angular/forms";
   templateUrl: "./edit-offer.page.html",
   styleUrls: ["./edit-offer.page.scss"],
 })
-export class EditOfferPage implements OnInit {
+export class EditOfferPage implements OnInit, OnDestroy {
   form: FormGroup;
   place: Place;
+  private placeSubs: Subscription;
+
   constructor(
     private route: ActivatedRoute,
     private placesService: PlacesService,
@@ -26,7 +29,12 @@ export class EditOfferPage implements OnInit {
         this.navCtrl.navigateBack("/places/tabs/offers");
         return;
       }
-      this.place = this.placesService.getPlace(paramMap.get("placeId"));
+      // this.place = this.placesService.getPlace(paramMap.get("placeId"));
+      this.placeSubs = this.placesService
+        .getPlace(paramMap.get("placeId"))
+        .subscribe((get) => {
+          this.place = get;
+        });
     });
 
     this.form = new FormGroup({
@@ -45,5 +53,10 @@ export class EditOfferPage implements OnInit {
       return;
     }
     console.log(this.form);
+  }
+  ngOnDestroy() {
+    if (this.placeSubs) {
+      this.placeSubs.unsubscribe();
+    }
   }
 }
