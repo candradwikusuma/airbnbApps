@@ -19,7 +19,7 @@ export class PlacesService {
       149.99,
       new Date("2020-06-03"),
       new Date("2020-06-30"),
-      "candra"
+      "xyz"
     ),
     new Place(
       "p2",
@@ -29,7 +29,7 @@ export class PlacesService {
       189.99,
       new Date("2020-06-03"),
       new Date("2020-06-30"),
-      "dwi"
+      "abc"
     ),
     new Place(
       "p3",
@@ -39,7 +39,7 @@ export class PlacesService {
       99.99,
       new Date("2020-06-03"),
       new Date("2020-06-30"),
-      "kusuma"
+      "abc"
     ),
   ]);
 
